@@ -18,8 +18,8 @@ llm = ["openai>=2.0,<3"]
 test = ["pytest>=8"]
 
 [project.scripts]
-financial-analyst-mas = "valuation_mas.cli:main"
-valuation-mas = "valuation_mas.cli:main"
+financial-analyst-mas = "financial_analyst_agent.cli:main"
+valuation-mas = "financial_analyst_agent.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

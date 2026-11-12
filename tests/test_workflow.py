@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from valuation_mas.workflow import run_fallback, valuation_node
+from financial_analyst_agent.workflow import run_fallback, valuation_node
 from test_valuation import example
 
 
@@ -18,8 +18,8 @@ class WorkflowRepairTests(unittest.TestCase):
                 result["valuation"].scenarios["base"].equity_value += 400
             return result
 
-        with patch("valuation_mas.workflow.NODES", dict(
-            __import__("valuation_mas.workflow", fromlist=["NODES"]).NODES,
+        with patch("financial_analyst_agent.workflow.NODES", dict(
+            __import__("financial_analyst_agent.workflow", fromlist=["NODES"]).NODES,
             valuation=corrupt_once,
         )):
             state = run_fallback(example())

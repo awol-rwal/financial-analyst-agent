@@ -5,10 +5,10 @@ from unittest.mock import patch
 
 import pytest
 
-from valuation_mas.health_validation import validate_health
-from valuation_mas.financial_workflow import run_simple, health_node, NODES
-from valuation_mas.planner import execute, parse_request
-from valuation_mas.models import FinancialHealthInput
+from financial_analyst_agent.health_validation import validate_health
+from financial_analyst_agent.financial_workflow import run_simple, health_node, NODES
+from financial_analyst_agent.planner import execute, parse_request
+from financial_analyst_agent.models import FinancialHealthInput
 
 PATH = Path(__file__).resolve().parents[1] / "examples" / "demo_financial_health.json"
 

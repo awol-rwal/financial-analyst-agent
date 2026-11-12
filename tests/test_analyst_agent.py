@@ -5,8 +5,8 @@ from unittest.mock import patch
 
 import pytest
 
-from valuation_mas.analyst_agent import TOOLS, run_simple
-from valuation_mas.planner import execute, parse_request
+from financial_analyst_agent.analyst_agent import TOOLS, run_simple
+from financial_analyst_agent.planner import execute, parse_request
 
 EXAMPLES = Path(__file__).resolve().parents[1] / "examples"
 

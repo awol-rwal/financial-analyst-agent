@@ -8,9 +8,9 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from valuation_mas.export_excel import export_excel
-from valuation_mas.models import ValuationInput
-from valuation_mas.workflow import run_fallback
+from financial_analyst_agent.export_excel import export_excel
+from financial_analyst_agent.models import ValuationInput
+from financial_analyst_agent.workflow import run_fallback
 
 DEMO = Path(__file__).resolve().parents[1] / "examples" / "demo_company.json"
 

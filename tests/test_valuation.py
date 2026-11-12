@@ -5,11 +5,11 @@ import json
 from pathlib import Path
 import unittest
 
-from valuation_mas.extraction import extract
-from valuation_mas.models import ValuationInput
-from valuation_mas.validation import validate
-from valuation_mas.valuation import calculate_wacc, run_valuation, value_cash_flows
-from valuation_mas.workflow import run_fallback
+from financial_analyst_agent.extraction import extract
+from financial_analyst_agent.models import ValuationInput
+from financial_analyst_agent.validation import validate
+from financial_analyst_agent.valuation import calculate_wacc, run_valuation, value_cash_flows
+from financial_analyst_agent.workflow import run_fallback
 
 DEMO = Path(__file__).resolve().parents[1] / "examples" / "demo_company.json"
 

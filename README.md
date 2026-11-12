@@ -69,7 +69,7 @@ python -m pip install -e '.[test,workflow]'
 **Outcome A — Initial Look**
 
 ```bash
-python -m valuation_mas run --input examples/demo_financial_health.json --output outputs/initial_look
+python -m financial_analyst_agent run --input examples/demo_financial_health.json --output outputs/initial_look
 ```
 
 Outputs: `run.json`, `initial_look.docx`, and `initial_look.xlsx` when Excel export is available.
@@ -77,7 +77,7 @@ Outputs: `run.json`, `initial_look.docx`, and `initial_look.xlsx` when Excel exp
 **Outcome B — Valuation**
 
 ```bash
-python -m valuation_mas run --input examples/demo_company.json --output outputs/valuation
+python -m financial_analyst_agent run --input examples/demo_company.json --output outputs/valuation
 ```
 
 Outputs: `run.json`, `valuation_report.docx`, and `valuation_model.xlsx` when Excel export is available.
@@ -91,7 +91,7 @@ Outputs: `run.json`, `valuation_report.docx`, and `valuation_model.xlsx` when Ex
 ```bash
 python -m pip install -e '.[llm]'
 # Set OPENAI_API_KEY in your environment (never commit credentials)
-python -m valuation_mas run --input examples/demo_company.json --output outputs/valuation --llm-analysis --llm-review --no-excel
+python -m financial_analyst_agent run --input examples/demo_company.json --output outputs/valuation --llm-analysis --llm-review --no-excel
 ```
 
 Both flags also work with `initial_look`.
@@ -134,7 +134,7 @@ All currency and share counts are normalised to **millions** during extraction. 
 The company JSON examples include invented `demo://` sources. To use real companies, replace them with verified financial disclosures and explicitly justify forecasting assumptions. The optional `fetch-sec` command produces an **incomplete** XBRL-derived starter file for US companies:
 
 ```bash
-python -m valuation_mas fetch-sec --ticker AAPL --email you@example.com --output outputs/aapl_starter.json
+python -m financial_analyst_agent fetch-sec --ticker AAPL --email you@example.com --output outputs/aapl_starter.json
 ```
 
 You must review and complete this file before using it for real valuation.
@@ -155,4 +155,4 @@ The suite covers both outcomes, the legacy workflow name, unit normalisation, DC
 4. Reusable industry/peer-comparison tools and financial-method selection beyond FCFF DCF.
 5. Benchmarked analyst/reviewer performance, especially agreement errors and evidence citation accuracy.
 
-The Python module is still named `valuation_mas` to avoid breaking previous imports. The command `financial-analyst-mas` is also available after installation; you can rename the module in a later breaking release if you want.
+The Python package is named `financial_analyst_agent`, matching this project's directory name. After installation, the `financial-analyst-mas` command is also available.
