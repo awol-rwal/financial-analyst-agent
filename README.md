@@ -154,5 +154,3 @@ The suite covers both outcomes, the legacy workflow name, unit normalisation, DC
 3. Human approval gates for significant forecasts and uncertain extraction decisions.
 4. Reusable industry/peer-comparison tools and financial-method selection beyond FCFF DCF.
 5. Benchmarked analyst/reviewer performance, especially agreement errors and evidence citation accuracy.
-
-The Python package is named `financial_analyst_agent`, matching this project's directory name. After installation, the `financial-analyst-mas` command is also available.
