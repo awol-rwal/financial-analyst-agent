@@ -1,0 +1,93 @@
+{
+  "company_name": "Northstar Components (FICTIONAL)",
+  "ticker": "DEMO",
+  "currency": "AUD",
+  "valuation_date": "2026-11-11",
+  "is_synthetic_demo": true,
+  "sources": [
+    {
+      "source_id": "demo_2023",
+      "title": "Invented FY2023 demonstration figures",
+      "url": "demo://synthetic/2023",
+      "source_type": "synthetic_demo",
+      "date": "2023-12-31",
+      "notes": "Numbers invented solely to test the software."
+    },
+    {
+      "source_id": "demo_2024",
+      "title": "Invented FY2024 demonstration figures",
+      "url": "demo://synthetic/2024",
+      "source_type": "synthetic_demo",
+      "date": "2024-12-31",
+      "notes": "Numbers invented solely to test the software."
+    },
+    {
+      "source_id": "demo_2025",
+      "title": "Invented FY2025 demonstration figures",
+      "url": "demo://synthetic/2025",
+      "source_type": "synthetic_demo",
+      "date": "2025-12-31",
+      "notes": "Numbers invented solely to test the software."
+    }
+  ],
+  "historical_financials": [
+    {
+      "year": 2023,
+      "revenue": 1000,
+      "ebit": 150,
+      "depreciation_amortization": 50,
+      "capex": 65,
+      "change_in_nwc": 20,
+      "cash": 150,
+      "debt": 300,
+      "shares_outstanding": 100,
+      "source_id": "demo_2023",
+      "units": "millions",
+      "notes": "Fictional illustration",
+      "current_assets": 380,
+      "current_liabilities": 220,
+      "net_income": 96,
+      "operating_cash_flow": 155,
+      "interest_expense": 17
+    },
+    {
+      "year": 2024,
+      "revenue": 1100,
+      "ebit": 176,
+      "depreciation_amortization": 55,
+      "capex": 70,
+      "change_in_nwc": 22,
+      "cash": 160,
+      "debt": 290,
+      "shares_outstanding": 100,
+      "source_id": "demo_2024",
+      "units": "millions",
+      "notes": "Fictional illustration",
+      "current_assets": 410,
+      "current_liabilities": 240,
+      "net_income": 112,
+      "operating_cash_flow": 173,
+      "interest_expense": 16
+    },
+    {
+      "year": 2025,
+      "revenue": 1210,
+      "ebit": 206,
+      "depreciation_amortization": 60,
+      "capex": 75,
+      "change_in_nwc": 24,
+      "cash": 180,
+      "debt": 280,
+      "shares_outstanding": 100,
+      "source_id": "demo_2025",
+      "units": "millions",
+      "notes": "Fictional illustration",
+      "current_assets": 460,
+      "current_liabilities": 250,
+      "net_income": 134,
+      "operating_cash_flow": 202,
+      "interest_expense": 15
+    }
+  ],
+  "workflow": "initial_look"
+}

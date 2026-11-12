@@ -7,6 +7,7 @@ Shares outstanding are in *millions of shares*.
 
 from datetime import date as Date
 from enum import Enum
+from typing import Literal
 from math import isfinite
 
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -45,6 +46,12 @@ class RawFinancialYear(BaseModel):
     units: str = "millions"  # USD/AUD units: ones, thousands, millions, billions
     page_reference: str = ""
     notes: str = ""
+    # Optional fields: financial-health ratios appear only when sourced.
+    current_assets: float | None = None
+    current_liabilities: float | None = None
+    net_income: float | None = None
+    operating_cash_flow: float | None = None
+    interest_expense: float | None = None
 
     @field_validator("units")
     @classmethod
@@ -125,6 +132,11 @@ class FinancialYear(BaseModel):
     debt: float
     shares_outstanding: float
     source_id: str
+    current_assets: float | None = None
+    current_liabilities: float | None = None
+    net_income: float | None = None
+    operating_cash_flow: float | None = None
+    interest_expense: float | None = None
 
 
 class FinancialAnalysis(BaseModel):
@@ -212,3 +224,41 @@ def ensure_finite(obj: BaseModel) -> None:
             for x in value:
                 walk(x)
     walk(obj.model_dump(mode="python"))
+
+
+class FinancialHealthInput(BaseModel):
+    """A standalone analysis request; DCF capital/scenarios aren't required."""
+    workflow: Literal["initial_look", "financial_health"] = "initial_look"
+    company_name: str
+    ticker: str
+    currency: str = "USD"
+    valuation_date: Date
+    is_synthetic_demo: bool = False
+    sources: list[SourceDocument]
+    historical_financials: list[RawFinancialYear]
+
+    @model_validator(mode="after")
+    def check_years(self):
+        years = [y.year for y in self.historical_financials]
+        if not years or len(years) != len(set(years)):
+            raise ValueError("Provide at least one fiscal year and no duplicate years")
+        return self
+
+
+class RatioMetric(BaseModel):
+    name: str
+    value: float | None
+    unit: str  # ratio, percent, or currency_millions
+    formula: str
+    source_ids: list[str]
+    reasoning: str
+
+
+class FinancialHealthOutput(BaseModel):
+    latest_year: int
+    ratios: dict[str, RatioMetric]
+    summary: str
+    limitations: list[str]
+
+
+AnalysisInput = ValuationInput | FinancialHealthInput

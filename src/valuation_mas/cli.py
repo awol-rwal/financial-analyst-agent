@@ -5,8 +5,8 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .models import ValuationInput
-from .workflow import run
+from .models import FinancialHealthInput
+from .planner import parse_request, execute
 
 
 def serialize(value: Any):
@@ -20,11 +20,15 @@ def serialize(value: Any):
 
 
 def run_command(args) -> int:
-    data = ValuationInput.model_validate_json(Path(args.input).read_text(encoding="utf8"))
-    state = run(data, backend=args.backend)
+    data = parse_request(json.loads(Path(args.input).read_text(encoding="utf8")))
+    state = execute(data, backend=args.backend)
+    # LLM calls are opt-in. The default analysis remains fully offline.
+    if state.get("status") == "passed" and args.llm_analysis:
+        from .agent_llm import analyst_interpret
+        state["analyst_interpretation"] = analyst_interpret(state)
     if state.get("status") == "passed" and args.llm_review:
-        from .llm import qualitative_review
-        critique, issues = qualitative_review(data, state["analysis"], state["valuation"])
+        from .agent_llm import independent_review
+        critique, issues = independent_review(state)
         state["llm_summary"] = critique
         state["findings"] = state.get("findings", []) + issues
 
@@ -42,6 +46,16 @@ def run_command(args) -> int:
         return 2
 
     print(state["report_summary"])
+    if isinstance(data, FinancialHealthInput):
+        from .health_reports import export_health_word, export_health_excel
+        if not args.no_word:
+            print(f"Word report: {export_health_word(state, output_dir / 'initial_look.docx')}")
+        if not args.no_excel:
+            try:
+                print(f"Excel report: {export_health_excel(state, output_dir / 'initial_look.xlsx')}")
+            except RuntimeError as exc:
+                print(f"Excel skipped: {exc}")
+        return 0
     if not args.no_word:
         from .export_word import export_word
         path = export_word(state, output_dir / "valuation_report.docx")
@@ -68,13 +82,14 @@ def sec_command(args) -> int:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Source-linked, auditable DCF valuation workflow")
+    parser = argparse.ArgumentParser(description="Financial Analyst: valuation and initial look")
     sub = parser.add_subparsers(dest="command", required=True)
-    run_parser = sub.add_parser("run", help="Run all stages from an input JSON file")
+    run_parser = sub.add_parser("run", help="Run the workflow selected by the input JSON (default: valuation)")
     run_parser.add_argument("--input", required=True, help="Path to company JSON")
     run_parser.add_argument("--output", default="outputs/run", help="Destination folder")
     run_parser.add_argument("--backend", default="auto", choices=["auto", "simple", "langgraph"])
-    run_parser.add_argument("--llm-review", action="store_true", help="Optional OpenAI independent critique")
+    run_parser.add_argument("--llm-analysis", action="store_true", help="Optional AI analyst interpretation of tool outputs")
+    run_parser.add_argument("--llm-review", action="store_true", help="Optional independent AI reviewer for either outcome")
     run_parser.add_argument("--no-word", action="store_true")
     run_parser.add_argument("--no-excel", action="store_true")
     run_parser.set_defaults(func=run_command)

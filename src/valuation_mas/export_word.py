@@ -64,6 +64,15 @@ def export_word(state: WorkflowState, destination: Path) -> Path:
 
     doc.add_heading("Executive summary", 1)
     doc.add_paragraph(state["report_summary"])
+    interpretation = state.get("analyst_interpretation")
+    if interpretation:
+        doc.add_heading("Optional AI analyst interpretation", 1)
+        doc.add_paragraph(interpretation["overview"])
+        for heading, key in (("Strengths", "strengths"), ("Risks", "risks"), ("Uncertainties", "uncertainties")):
+            if interpretation.get(key):
+                doc.add_heading(heading, 2)
+                for item in interpretation[key]:
+                    doc.add_paragraph(item, style="List Bullet")
     if state.get("llm_summary"):
         doc.add_paragraph("Optional qualitative model critique: " + state["llm_summary"])
 

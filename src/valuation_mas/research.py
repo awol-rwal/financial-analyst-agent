@@ -4,7 +4,7 @@ MVP scope: user-supplied JSON documents (or SEC-imported JSON). Future search
 providers can be plugged in here. Do not let a model invent source URLs.
 """
 
-from .models import SourceDocument, ValuationInput
+from .models import SourceDocument, AnalysisInput
 
 
 SOURCE_PRIORITY = {
@@ -16,7 +16,7 @@ SOURCE_PRIORITY = {
 }
 
 
-def research(input_data: ValuationInput) -> tuple[list[SourceDocument], list[str]]:
+def research(input_data: AnalysisInput) -> tuple[list[SourceDocument], list[str]]:
     sources = sorted(
         input_data.sources,
         key=lambda source: (SOURCE_PRIORITY[source.source_type.value], source.source_id),
